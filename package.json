@@ -1,0 +1,22 @@
+{
+  "name": "simon-game-jest-testing",
+  "version": "1.0.0",
+  "description": "![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MoniPar/simon-game-jest-testing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MoniPar/simon-game-jest-testing/issues"
+  },
+  "homepage": "https://github.com/MoniPar/simon-game-jest-testing#readme",
+  "devDependencies": {
+    "jest": "^26.6.3"
+  }
+}
