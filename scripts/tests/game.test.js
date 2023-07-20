@@ -2,7 +2,7 @@
  * @jest-environment jsdom
 */
 
-const { game, newGame, showScore } = require("../game");
+const { game, newGame, addTurn, showScore, lightsOn } = require("../game");
 
 // load the index.html file into Jest's mock DOM
 beforeAll(() => {
@@ -56,12 +56,37 @@ describe("newGame works correctly", () => {
     test("should clear the playerMoves array", () => {
         expect(game.playerMoves.length).toEqual(0);
     });
-    // check if the currentGame array has been cleared
-    test("should clear the currentGame array", () => {
-        expect(game.currentGame.length).toEqual(0);
+    // check if the currentGame sequence contains one element (new turn)
+    test("should be one move in the computer's game array", () => {
+        expect(game.currentGame.length).toBe(1);
     });
     // check if the score element displays 0
     test("should display 0 for the element with id of score", () => {
         expect(document.getElementById("score").innerText).toEqual(0);
+    });
+});
+
+describe("gameplay works correctly", () => {
+    beforeEach(() => {
+        game.score = 0;
+        game.currentGame = [];
+        game.playerMoves = [];
+        addTurn();
+    });
+    afterEach(() => {
+        game.score = 0;
+        game.currentGame = [];
+        game.playerMoves = [];
+    });
+    // check that there are two elements
+    test("adds a new turn to the game", () => {
+        addTurn();
+        expect(game.currentGame.length).toBe(2);
+    });
+    // check to see if the correct class has been added to our button to light up
+    test("should add correct class to light up the button", () => {
+        let button = document.getElementById(game.currentGame[0]);
+        lightsOn(game.currentGame[0]);
+        expect(button.classList).toContain("light");
     });
 });
