@@ -54,4 +54,21 @@ function showTurns() {
     }, 800);
 }
 
-module.exports = { game, newGame, addTurn, showScore, lightsOn, showTurns };
+function playerTurn() {
+    // get index of the last element in playerMoves array
+    let i = game.playerMoves.length - 1;
+    // compare it with the same index in the currentGame array
+    if (game.currentGame[i] === game.playerMoves[i]) {
+        // checks if the sequence is complete (i.e. all match and correct)
+        if(game.currentGame.length == game.playerMoves.length) {
+            game.score++;
+            showScore();
+            addTurn();
+        }
+    } else {
+        alert("Wrong move!");
+        newGame();
+    }
+}
+
+module.exports = { game, newGame, addTurn, showScore, lightsOn, showTurns, playerTurn };
