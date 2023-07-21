@@ -2,7 +2,7 @@
  * @jest-environment jsdom
 */
 
-const { game, newGame, addTurn, showScore, lightsOn } = require("../game");
+const { game, newGame, addTurn, showScore, lightsOn, showTurns } = require("../game");
 
 // load the index.html file into Jest's mock DOM
 beforeAll(() => {
@@ -37,12 +37,17 @@ describe("game object contains correct keys", () => {
     test("choices key contains relevant ids", () => {
         expect(game.choices).toEqual(["button1", "button2", "button3", "button4"]);
     });
+    // check if turn number key exists
+    test("turnNumber key exists", () => {
+        expect("turnNumber" in game).toBe(true);
+    });
 });
 
 describe("newGame works correctly", () => {
     // set up the game state with some fake values to see if newGame func resets them
     beforeAll(() => {
         game.score = 42;
+        game.turnNumber = 42;
         game.playerMoves = ["button1", "button3"];
         game.currentGame = ["button1", "button4"];
         document.getElementById("score").innerText = "42";
@@ -51,6 +56,10 @@ describe("newGame works correctly", () => {
     // test if the score has been reset
     test("should set the game score to zero", () => {
         expect(game.score).toEqual(0);
+    });
+    // test if the turn number has been reset
+    test("should set the turnNumber to zero", () => {
+        expect(game.turnNumber).toEqual(0);
     });
     // check if the playerMoves array has been cleared
     test("should clear the playerMoves array", () => {
@@ -63,6 +72,13 @@ describe("newGame works correctly", () => {
     // check if the score element displays 0
     test("should display 0 for the element with id of score", () => {
         expect(document.getElementById("score").innerText).toEqual(0);
+    });
+    // check if data listener attr has been set to true on each circle
+    test("data listener to be true", () => {
+        const elements = document.getElementsByClassName("circle");
+        for (let element of elements) {
+            expect(element.getAttribute("data-listener")).toEqual("true");
+        }
     });
 });
 
@@ -88,5 +104,10 @@ describe("gameplay works correctly", () => {
         let button = document.getElementById(game.currentGame[0]);
         lightsOn(game.currentGame[0]);
         expect(button.classList).toContain("light");
+    });
+    test("showTurns should update game.turnNumber", () => {
+        game.turnNumber = 42;
+        showTurns();
+        expect(game.turnNumber).toBe(0);
     });
 });
